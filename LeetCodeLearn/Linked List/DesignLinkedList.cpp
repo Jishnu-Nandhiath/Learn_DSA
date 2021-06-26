@@ -1,4 +1,4 @@
-    struct Node{
+struct Node{
         int data;
         struct Node *next;
         };  
@@ -11,39 +11,33 @@ public:
     }
     
     /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
-    int get(int index) {
+    int get(int index) {        
         Node *tmp = Head;
         int i;
         if(index == 0)
             return Head->data;
-        if(Head!=NULL)
+        for(i = 1; i <= index; )
         {
-         for(i = 1; i <= index ; i++)
+        if(tmp->next != NULL)
         {
-            tmp = tmp -> next;
+               tmp = tmp -> next;
+               i++;
+        }
+            else
+                break;
         }
         if(i-1 == index)
             return tmp->data;
-        }
-  
+
         return -1;
     }
     
     /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
     void addAtHead(int val) {
-        struct Node *tmp = new Node;
+        Node *tmp = new Node;
         tmp->data = val;
-        tmp->next = NULL;
-        if(Head == NULL)
-        {
-            Head = tmp;
-        }
-        else
-        {
-            tmp -> next = Head;
-            Head = tmp;
-            cout<<tmp->data<<endl;
-        }
+        tmp->next = Head;
+        Head = tmp;
     }
     
     /** Append a node of value val to the last element of the linked list. */
@@ -70,66 +64,68 @@ public:
         tmp -> data = val;
         tmp -> next = NULL;
         int i = 1;
-        Node *prev = Head;
-        if(index == 0)
-        {
-            tmp -> next = Head;
-            Head = tmp;
-            return;
-        }
-        if(Head == NULL)
-        {
-            Head = tmp;
-        }
-        else
+        Node *prev = new Node;
+        if(index == 0 )
+            addAtHead(val);
+        else if(Head != NULL)
         {
         Node *itr = Head;
-        for(; i <= index; i++)
+        for(; i <= index ;)
         {
-            itr = itr -> next;
-            if(i>1)
+            if(itr -> next != NULL)
             {
-                prev = prev -> next;
+            prev = itr;     
+            itr = itr -> next;
+            i++;
             }
-        }
+            else
+                break;
+        }                           
         if(i-1 == index)
+        { 
+           prev -> next = tmp; 
+           tmp -> next = itr;
+        }
+        else if(i == index && itr -> next == NULL)
         {
-                  tmp -> next = itr;
-        prev -> next = tmp;  
+            itr -> next = tmp;
         }
-    
-        }
-
-        
-                    
-    }
+    }  
+}
     
     /** Delete the index-th node in the linked list, if the index is valid. */
     void deleteAtIndex(int index) {
         Node *itr = Head;
-        Node *prev = Head;
+        Node *prev = new Node;
         int i =1;
         if(index == 0 && Head != NULL)
         {
+            Node *tmp = Head;
             Head = Head -> next;
+            delete tmp;
             return;
         }
 
         if(Head!=NULL)
         {
-        for(; i <= index ; i++)
+        for(; i <= index ;)
         {
+            if(itr -> next != NULL)
+            {
+            prev = itr;
             itr = itr -> next;
-            if(i>1)
-                prev = prev -> next;
+            i++;
+            }
+            else
+                break;
                 
         }
-        if(itr == NULL && i-1 == index)
-            prev -> next = NULL;
-        else if(i-1 == index)
+        if(i-1 == index)
         {
             prev -> next = itr -> next;
+            delete itr;
         }
+  
         }
         
       
