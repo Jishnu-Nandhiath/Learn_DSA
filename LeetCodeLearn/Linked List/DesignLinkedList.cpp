@@ -13,18 +13,13 @@ public:
     /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
     int get(int index) {        
         Node *tmp = Head;
-        int i;
-        if(index == 0)
+        int i = 1;
+        if(!index)
             return Head->data;
-        for(i = 1; i <= index; )
+        while(tmp -> next && i<=index)
         {
-        if(tmp->next != NULL)
-        {
-               tmp = tmp -> next;
-               i++;
-        }
-            else
-                break;
+            tmp = tmp->next;
+            i++;
         }
         if(i-1 == index)
             return tmp->data;
@@ -46,7 +41,7 @@ public:
         tmp -> data = val;
         tmp -> next = NULL;
         Node *itr = Head;
-        if(Head == NULL)
+        if(!Head)
         {
             Head = tmp;
             return;
@@ -65,28 +60,27 @@ public:
         tmp -> next = NULL;
         int i = 1;
         Node *prev = new Node;
+        Node *itr = Head;
         if(index == 0 )
+        {
             addAtHead(val);
+            return;
+        }
         else if(Head != NULL)
         {
-        Node *itr = Head;
-        for(; i <= index ;)
+        while(itr-> next && i<=index)
         {
-            if(itr -> next != NULL)
-            {
-            prev = itr;     
-            itr = itr -> next;
+            prev = itr;
+            itr = itr->next;
             i++;
-            }
-            else
-                break;
-        }                           
+        }
+                         
         if(i-1 == index)
         { 
            prev -> next = tmp; 
            tmp -> next = itr;
         }
-        else if(i == index && itr -> next == NULL)
+        else if(i == index && !itr -> next)
         {
             itr -> next = tmp;
         }
@@ -98,7 +92,7 @@ public:
         Node *itr = Head;
         Node *prev = new Node;
         int i =1;
-        if(index == 0 && Head != NULL)
+        if(index == 0 && Head )
         {
             Node *tmp = Head;
             Head = Head -> next;
@@ -106,19 +100,13 @@ public:
             return;
         }
 
-        if(Head!=NULL)
+        if(Head)
         {
-        for(; i <= index ;)
+        while(itr->next && i<=index)
         {
-            if(itr -> next != NULL)
-            {
             prev = itr;
             itr = itr -> next;
             i++;
-            }
-            else
-                break;
-                
         }
         if(i-1 == index)
         {
@@ -127,17 +115,7 @@ public:
         }
   
         }
-        
-      
+
     }
 };
 
-/**
- * Your MyLinkedList object will be instantiated and called as such:
- * MyLinkedList* obj = new MyLinkedList();
- * int param_1 = obj->get(index);
- * obj->addAtHead(val);
- * obj->addAtTail(val);
- * obj->addAtIndex(index,val);
- * obj->deleteAtIndex(index);
- */
